@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
+        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.connection.url">jdbc:derby://localhost:1527/BookStore</property>
+        <property name="hibernate.connection.username">guest</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+        
+		<property name="hibernate.connection.pool_size">1</property>
+		<property name="connection.release_mode">after_statement</property>
+		<property name="transaction.flush_before_completion">true</property>
+	
+		<!-- Use Thread local contextual sessions -->
+		<property name="hibernate.current_session_context_class">
+			thread
+		</property>
+	
+		<!-- Disable the second-level cache  -->
+		<property name="hibernate.cache.provider_class">
+			org.hibernate.cache.NoCacheProvider
+		</property>
+		
+		<property name="hibernate.show_sql">true</property>
+		
+		<!-- Mappings -->
+		<mapping resource="org/integrallis/bookstore/domain/Store.hbm.xml" />
+		<mapping resource="org/integrallis/bookstore/domain/Book.hbm.xml" />
+		<mapping resource="org/integrallis/bookstore/domain/Inventory.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>

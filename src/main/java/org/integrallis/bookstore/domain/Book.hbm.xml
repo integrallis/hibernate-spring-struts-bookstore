@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.integrallis.bookstore.domain">
+  <class name="Book">
+    <id name="id" column="BOOK_ID">
+      <generator class="identity"/>
+    </id>
+    
+    <version column="version" 
+             name="version" 
+             type="integer" 
+             access="field" 
+             unsaved-value="negative"/>     
+    
+    <property name="isbn"/>
+    <property name="title" />
+    <property name="publishedOn" type="date" /> 
+    <property name="price" type="double" column="Price"/>
+    
+    <set name="authors" table="BOOKAUTHORS">
+      <key column="BOOK_ID"/>
+      <element type="string" column="LASTNAME" />
+    </set>
+    
+    <set name="inventoryRecords" inverse="true" lazy="false" cascade="save-update">
+      <key column="BOOK_ID"/>
+      <one-to-many class="Inventory"/>
+    </set> 
+    
+    <joined-subclass name="ElectronicBook">
+      <key column="BOOK_ID" />
+      <property name="url" />
+      <property name="fileType"/>
+    </joined-subclass>      
+    
+    <filter name="publishedBetweenFilter" condition="publishedOn BETWEEN :startDate AND :endDate"/>   
+  </class>
+  
+  <query name="Book.findByISBN">
+    <![CDATA[FROM Book WHERE isbn=:isbn]]>
+  </query>
+  
+  <filter-def name="publishedBetweenFilter">
+    <filter-param name="startDate" type="date"/>
+    <filter-param name="endDate" type="date"/>
+    <![CDATA[publishedOn BETWEEN :startDate AND :endDate]]>
+  </filter-def>  
+
+</hibernate-mapping>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.integrallis.bookstore.domain">
+  <class name="Store">
+ 	<id name="id" column="STORE_ID">
+       <generator class="identity" />
+	</id>
+	
+	<property name="nickName" />
+	
+	<component name="address" class="Address">
+		<property name="street1" />
+	    <property name="street2" />
+	    <property name="city" />
+	    <property name="state" />
+	    <property name="zipCode" />
+    </component>
+  </class>
+  
+  <query name="Store.findByNickName">
+    <![CDATA[FROM Store WHERE nickName=:nickName]]>
+  </query> 
+  
+  <sql-query name="Store.findTotalValueOfBookForStore">
+    <![CDATA[
+      SELECT 
+        SUM(i.quantity * b.price) 
+      FROM 
+        BOOK b, INVENTORY i  
+      WHERE 
+        i.book_id = b.book_id AND 
+        i.store_id = :store_id
+    ]]>
+  </sql-query>
+</hibernate-mapping>

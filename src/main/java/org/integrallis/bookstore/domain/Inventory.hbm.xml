@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.integrallis.bookstore.domain">
+  <class name="Inventory">
+    <id name="id" column="INVENTORY_ID" access="field">
+      <generator class="identity"/>
+    </id>
+       
+    <property name="quantity"/>
+       
+    <many-to-one name="book" column="BOOK_ID" class="Book" not-null="true"/>
+    <many-to-one name="store" column="STORE_ID" class="Store" not-null="true"/>
+  </class>
+</hibernate-mapping>
